@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理页面</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+
+
+
+
+    {{/*为删除标签做友好提示*/}}
+    <script type="text/javascript">
+        // 自动加载
+        window.onload=function (ev) {
+            $(".dels").click(function () {
+                // 设置弹框 默认返回true  我们设置返回false
+                if (!confirm("是否确认删除")){
+                    return false
+                }
+
+            })
+
+        }
+    </script>
+
+
+</head>
+<body>
+
+<div class="header">
+    <a href="#" class="logo fl"><img src="/static/img/logo.png" alt="logo"></a>
+    <a href="/logout" class="logout fr">退 出</a>
+</div>
+
+<div class="side_bar">
+    <div class="user_info">
+        <img src="/static/img/person.png" alt="张大山">
+        <p>欢迎你 <em>{{.userName}}</em></p>
+    </div>
+
+    <div class="menu_con">
+        <div class="first_menu active"><a href="javascript:;" class="icon02">文章管理</a></div>
+        <ul class="sub_menu show">
+            <li><a href="/articlelist" class="icon031">文章列表</a></li>
+            <li><a href="/addarticle" class="icon032">添加文章</a></li>
+            <li><a href="/addtype" class="icon034">添加分类</a></li>
+        </ul>
+    </div>
+</div>
+
+
+{{/*//为公共部分添加展位符*/}}
+{{.LayoutContent}}
+
+{{/*-------------------------------------------以上是每个网页都相同都公共部分-----------------------------------------------*/}}
+
+
+{{/*-------------------------------------------以下是每个网页不同都部分注释掉-----------------------------------------------*/}}
+
+
+
+
+
+
+{{/*把main_body都注释掉*/}}
+{{/*<div class="main_body" id="main_body">*/}}
+    {{/*<div class="breadcrub">*/}}
+        {{/*当前位置：文章管理>文章列表*/}}
+    {{/*</div>*/}}
+    {{/*<div class="pannel">*/}}
+        {{/*<span class="sel_label">请选择文章分类：</span>*/}}
+
+
+        {{/*根据下拉框选项获取文章，将下拉框传递给后台，需要form表单传值*/}}
+        {{/*请求建立好之后不能直接发送请求，需要一个按钮，我们需要将下拉框做一个点击时间*/}}
+        {{/*最初我们用的是post请求，到了文章列表页发现页面进行了分页等复杂的处理，所以我们改成get请求和展示文章页合并*/}}
+        {{/*<form method="get" action="/articlelist" class="form">*/}}
+            {{/*<select name="select" id="select" class="sel_opt">*/}}
+
+                {{/*第二种方法循环遍历后端分类信息*/}}
+                {{/*遍历切片*/}}
+                {{/*{{range .articletypes}}*/}}
+                    {{/*循环获取后端类型数据，假如选中的类型字段==获取的类型字段 我们将select置为true显示else不显示*/}}
+                    {{/*compare比较            */}}
+                    {{/*beego中循环$.获取后台数据，.获取成员属性*/}}
+                    {{/*<option {{if compare $.typename .TypeName}} selected="true" {{else}}{{end}}>{{.TypeName}}</option>*/}}
+
+
+
+
+                    {{/*直接取字段*/}}
+                    {{/*<option selected="true">{{.TypeName}}</option>*/}}
+                    {{/*<option>体育新闻</option>*/}}
+                    {{/*<option>科技新闻</option>*/}}
+                {{/*{{end}}*/}}
+
+            {{/*</select>*/}}
+        {{/*</form>*/}}
+
+        {{/*<table class="common_table">*/}}
+            {{/*<tr>*/}}
+                {{/*<th width="43%">文章标题</th>*/}}
+                {{/*<th width="10%">文章内容</th>*/}}
+                {{/*<th width="16%">添加时间</th>*/}}
+                {{/*<th width="7%">阅读量</th>*/}}
+                {{/*<th width="7%">删除</th>*/}}
+                {{/*<th width="7%">编辑</th>*/}}
+                {{/*<th width="10%">文章类型</th>*/}}
+            {{/*</tr>*/}}
+
+            {{/*{{range $index,$articles:=.article}}*/}}
+                {{/*<tr>*/}}
+                    {{/*<td>{{$articles.Title}}</td>*/}}
+                    {{/*<td><a href="/articledetail?id={{$articles.Id}}">查看详情</a></td>*/}}
+                    {{/*<td>{{$articles.Time.Format "2006-01-02-15:04:05"}}</td>*/}}
+                    {{/*<td>{{$articles.ReadCount}}</td>*/}}
+                    {{/*<td><a href="/articledelete?id={{$articles.Id}}" class="dels">删除</a></td>*/}}
+                    {{/*<td><a href="/articleupdate?id={{$articles.Id}}">编辑</a></td>*/}}
+                    {{/*<td>{{$articles.ArticleType.TypeName}}</td>*/}}
+                {{/*</tr>*/}}
+            {{/*{{end}}*/}}
+
+
+        {{/*</table>*/}}
+        {{/*创建视图函数第一步 {{.pageindex(key值) | PrePage(定一个前端函数名)}}  第一种方法只能传递一个参数*/}}
+        {{/*<ul class="pagenation">*/}}
+            {{/*<li><a href="/articlelist?pageindex=1">首页</a></li>*/}}
+            {{/*<li><a href="/articlelist?pageindex={{.pageindex | PrePage}}">上一页 </a> </li>*/}}
+            {{/*这种创建视图函数的方法   把函数名提前 可以传两个参数*/}}
+            {{/*<li><a href="/articlelist?pageindex={{NextPage .pageindex .pagecount}}">下一页</a></li>*/}}
+            {{/*<li><a href="/articlelist?pageindex={{.pagecount}}">末页</a></li>*/}}
+            {{/*<li>共{{.count}}条记录/共{{.pagecount}}页/当前{{.pageindex}}页</li>*/}}
+        {{/*</ul>*/}}
+    {{/*</div>*/}}
+{{/*</div>*/}}
+{{/*{{.errmsg}}*/}}
+
+{{/*为下拉框绑定一个点击时间，当下拉框发生改变时 $("#select")找到下拉框，ID前面用#*/}}
+{{/*<script type="text/javascript">*/}}
+    {{/*// 下拉框改变当监听事件*/}}
+    {{/*$("#select").change(function () {*/}}
+        {{/*// 找到form表单当请求，为form表单添加一个form类,这样可以达到发送请求的功能*/}}
+        {{/*$(".form").submit()*/}}
+    {{/*})*/}}
+
+{{/*</script>*/}}
+
+
+
+
+</body>
+</html>
